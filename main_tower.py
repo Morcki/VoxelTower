@@ -42,12 +42,6 @@ def draw_tower_level_window(height, size, window_size):
             scene.set_voxel(vec3(direct[k, 0] * (start1 - half0 + j), h + i, direct[k, 1] * (start2 + half0 - j)), 0, vec3(0.0, 0.0, 0.0))
             scene.set_voxel(vec3(direct[k, 0] * (start1 - half1 - j), h + i, direct[k, 1] * (start2 + half1 + j)), 0, vec3(0.0, 0.0, 0.0))
 @ti.func
-def draw_tower_big_door(height, size, door_width, door_height):
-    start1 = size * 1.5; start2 = size * 0.5; index = (size - door_width) * 0.5; start_arr = [start2, start1, -start2, -start1, start2]
-    for i, j in ti.ndrange(door_width, door_height + 1):
-        if ((i == 0 or i == door_width - 1) and j == door_height): continue
-        scene.set_voxel(vec3(start_arr[0] + coeff[0, 0] * (i + index), height + 1 + j, start_arr[1] + coeff[0, 1] * (i + index)), 0, vec3(0.0, 0.0, 0.0))
-@ti.func
 def draw_tower_level_door(height, size, door_width, door_height):
     start1 = size * 1.5; start2 = size * 0.5; index = (size - door_width) * 0.5; start_arr = [start2, start1, -start2, -start1, start2]
     for i, j in ti.ndrange(door_width, door_height + 1):
@@ -78,7 +72,7 @@ def draw_tower():
     draw_tower_level_plane(floor_height, outter_size, vec3(0.489, 0.479, 0.449), cnoise)
     draw_tower_level_wall(floor_height + 1, first_level_height, inner_size, cwall, cnoise)
     draw_tower_level_light(floor_height + 1, first_level_height, inner_size, clight)
-    draw_tower_big_door(floor_height + 1, inner_size, 6, 7)
+    draw_tower_level_door(floor_height + 1, inner_size, 6, 7)
     for ilevel in range(1, 7):
         height = floor_height + 2 + first_level_height + (ilevel - 1) * (others_level_height + 2)
         draw_tower_level_plane(height, outter_size, cplane, cnoise)
