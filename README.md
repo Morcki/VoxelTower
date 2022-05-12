@@ -1,5 +1,17 @@
 # <a name="title">Taichi Voxel Challenge</a>
 
+## Voxel Tower in main_tower.py
+
+<p align="center">
+<img src="ScreenShot/VoxelTower0.jpg" width="75%"></img>
+</p>
+
+<p align="center">
+<img src="ScreenShot/VoxelTower1.jpg" width="75%"></img>
+</p>
+
+## Taichi Voxel Challenge Introduction
+
 <p align="center">
 <img src="demo.jpg" width="75%"></img>
 </p>
