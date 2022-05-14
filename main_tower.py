@@ -1,4 +1,4 @@
-from scene import Scene; import taichi as ti; from taichi.math import vec3
+from scene import Scene; import taichi as ti; from taichi.math import vec3, mix
 floor_height = -64
 scene = Scene(voxel_edges = 0, exposure = 1.2)
 scene.set_floor(-1, (1.0, 1.0, 1.0))
@@ -13,9 +13,6 @@ cplane = vec3(0.168, 0.836, 0.898); cwall = vec3(.973, .992, .773); clight = vec
 inner_size = 10; outter_size = 14; guard_size = 12
 first_level_height = 12; others_level_height = 8; guard_height = 3
 
-@ti.func
-def mix_color(color1, color2, a):
-    return color1 * (1.0 - a) + color2 * a
 @ti.func
 def draw_tower_level_light(h, wall_h, size, color):
     s1 = size * 1.5; s2 = size * 0.5
@@ -62,7 +59,7 @@ def draw_tower_level_wall(h, wall_h, size, color, mat = 1):
 def draw_tower_top(h, size):
     for i in range(size * 0.5 - 1):
         inner_size = size - 4 if i == 0 else size - i * 2 - 2
-        draw_tower_level_plane(h + i * 2, size - i * 2, mix_color(cplane, cwall, (i * 2 + 1) / size), 1)
+        draw_tower_level_plane(h + i * 2, size - i * 2, mix(cplane, cwall, (i * 2 + 1) / size), 1)
         draw_tower_level_plane(h + i * 2, inner_size, cplane, 0)
     for i in range(3):
         draw_tower_level_plane(h + size - 3 + i, 2, cwall, 1)
@@ -81,9 +78,9 @@ def draw_tower():
         draw_tower_level_plane(height, outter_size, cplane)
         draw_tower_level_plane(height, inner_size - 2, cwall, 0)
         draw_tower_level_wall(height + 1, others_level_height, inner_size, cwall)
-        draw_tower_level_wall(height + 1, guard_height, inner_size + 2, mix_color(cplane, cwall, 0.85))
-        draw_tower_level_wall(height + 1, guard_height, inner_size - 2, mix_color(cplane, cwall, 0.35))
-        draw_tower_level_wall( height + 1, guard_height - 1, guard_size + 1, mix_color(cplane, cwall, 0.2))
+        draw_tower_level_wall(height + 1, guard_height, inner_size + 2, mix(cplane, cwall, 0.85))
+        draw_tower_level_wall(height + 1, guard_height, inner_size - 2, mix(cplane, cwall, 0.35))
+        draw_tower_level_wall( height + 1, guard_height - 1, guard_size + 1, mix(cplane, cwall, 0.2))
         draw_tower_level_window(height + 1, inner_size, 2)
         draw_tower_level_door(height + 1, inner_size, 4, 5)
         draw_tower_level_light(height + 1, others_level_height, inner_size, clight)
